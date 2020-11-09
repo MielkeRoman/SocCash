@@ -1,0 +1,18 @@
+{% extends "soc/base.html" %}
+  
+{% block title %}Recently news{% endblock %}
+  
+{% block content %}  
+  <h1>Recently News</h1>
+  {% for new in news %}
+    <h2>  
+      <a href="{{ post.get_absolute_url }}">  
+       {{ new.title }}
+      </a>  
+    </h2> 
+    <p class="date">  
+      Published {{ new.new_publish }} by {{ new.new_author }}
+    </p>  
+    {{ new.new_body|truncatewords:30|linebreaks }}
+  {% endfor %}  
+{% endblock %}
