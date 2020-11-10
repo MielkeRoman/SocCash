@@ -3,10 +3,12 @@ from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.urls import reverse
 
-
-#from .custom_queryser.models import PublishedManager
-
 User = get_user_model()
+
+
+class PublishedManager(models.Manager):
+    def get_queryset(self):
+        return super(PublishedManager, self).get_queryset().filter(status='published')
 
 
 class New(models.Model):
@@ -25,7 +27,7 @@ class New(models.Model):
                               choices=STATUS_CHOICES,
                               default='draft')
     new_slug = models.SlugField(max_length=250,
-                            unique_for_date='publish')
+                            unique_for_date='new_publish')
 
     class Meta:
         def __str__(self):
@@ -33,7 +35,7 @@ class New(models.Model):
 
             return self.title
 
-    #published = PublishedManager()
+    published = PublishedManager()
 
     def get_absolute_url(self):
         return reverse(
